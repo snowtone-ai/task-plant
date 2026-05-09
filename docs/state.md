@@ -2,8 +2,8 @@
 
 ## Current
 - Branch: main
-- Current executor: Codex CLI
-- Write lock: Codex CLI
+- Current executor: なし（セッション終了）
+- Write lock: なし
 - Last verified: 2026-05-09
 - Verification mode: standard
 
