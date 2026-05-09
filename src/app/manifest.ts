@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "タスク管理 — 今日やること",
-    short_name: "タスク管理",
-    description: "就活・大学・生活のタスクを一括管理するADHD向けPWA",
+    name: "Task Plant",
+    short_name: "Task Plant",
+    description: "ADHDユーザー向けタスク管理 + 植物育成PWA",
     start_url: "/",
     display: "standalone",
     orientation: "portrait",

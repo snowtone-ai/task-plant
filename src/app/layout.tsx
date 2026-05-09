@@ -23,13 +23,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "タスク管理 — 今日やること",
-  description: "就活・大学・生活のタスクを一括管理するADHD向けPWA",
-  applicationName: "タスク管理",
+  title: "Task Plant",
+  description: "ADHDユーザー向けタスク管理 + 植物育成PWA",
+  applicationName: "Task Plant",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "タスク管理",
+    title: "Task Plant",
   },
   formatDetection: {
     telephone: false,
