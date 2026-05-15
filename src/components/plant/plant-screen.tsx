@@ -49,7 +49,7 @@ export function PlantScreen() {
           </p>
         )}
       </div>
-      <BottomNav currentPath="/plant" />
+      <BottomNav />
     </div>
   );
 }

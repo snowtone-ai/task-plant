@@ -1,13 +1,16 @@
-model = "o3"
-model_reasoning_effort = "high"
-approval_policy = "untrusted"
-sandbox_mode = "workspace-write"
+#:schema https://developers.openai.com/codex/config-schema.json
+
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+check_for_update_on_startup = true
+project_doc_fallback_filenames = ["AGENTS.md"]
 
 [features]
-codex_hooks = true
+hooks = true
+multi_agent = true
+goals = true
 
-[profiles.standard]
-model_reasoning_effort = "medium"
-
-[profiles.light]
-model_reasoning_effort = "low"
+[agents]
+max_threads = 4
+max_depth = 1
+job_max_runtime_seconds = 1800

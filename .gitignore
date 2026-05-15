@@ -37,12 +37,13 @@ yarn-error.log*
 # vercel
 .vercel
 
-# pm-zero v9.1
+# pm-zero v9.3
 screenshots/*
 logs/*
 !screenshots/.gitkeep
 !logs/.gitkeep
 !.env.example
+.claude/settings.local.json
 
 # typescript
 *.tsbuildinfo

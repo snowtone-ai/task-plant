@@ -67,15 +67,29 @@ export function countWeeklyCompletedTasks(
   tasks: CompletedTaskRecord[],
   now: Date
 ): number {
-  const weekStart = new Date(now);
-  weekStart.setHours(0, 0, 0, 0);
-  weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+  const weekStart = getWeekStartLocal(now);
 
   return tasks.filter((task) => {
     if (!task.completed || !task.completedAt) return false;
     const completedAt = new Date(task.completedAt);
     return completedAt >= weekStart && completedAt <= now;
   }).length;
+}
+
+export function getWeekStartLocal(baseDate: Date): Date {
+  const weekStart = new Date(baseDate);
+  weekStart.setHours(0, 0, 0, 0);
+  const day = weekStart.getDay();
+  const diff = day === 0 ? 6 : day - 1;
+  weekStart.setDate(weekStart.getDate() - diff);
+  return weekStart;
+}
+
+export function toLocalDateString(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 const STAGE_LABELS = ["種", "芽吹き", "葉が出た", "つぼみ", "開花中", "満開"] as const;

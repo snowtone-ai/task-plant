@@ -6,6 +6,7 @@ import {
   todayDateString,
   toDateStr,
 } from "./domain/task-date";
+import { countWeeklyCompletedTasks, getWeekStartLocal, toLocalDateString } from "./domain/plant";
 
 // ── Task CRUD ──────────────────────────────────────────────────────────────
 
@@ -75,6 +76,32 @@ export async function toggleTaskComplete(id: string): Promise<void> {
       completedAt: completed ? new Date().toISOString() : null,
     });
   }
+}
+
+/** 現在週の完了数を集計し、plantStateを同期する */
+export async function syncPlantStateFromTasks(now = new Date()): Promise<void> {
+  const tasks = await db.tasks.toArray();
+  const weekStartDate = toLocalDateString(getWeekStartLocal(now));
+  const weeklyCompleted = countWeeklyCompletedTasks(tasks, now);
+  const existing = await db.plantState.get(1);
+
+  if (!existing) {
+    await db.plantState.put({
+      id: 1,
+      weeklyCompleted,
+      lifetimeCompleted: weeklyCompleted,
+      weekStartDate,
+      lastUpdated: now.toISOString(),
+    });
+    return;
+  }
+
+  await db.plantState.put({
+    ...existing,
+    weeklyCompleted,
+    weekStartDate,
+    lastUpdated: now.toISOString(),
+  });
 }
 
 /** カテゴリでフィルタしたタスクを取得 */

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// pm-zero v9.1 — Claude Code Hook Dispatcher
+// pm-zero v9.3 — Claude Code Hook Dispatcher
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { redact, warnHookFailure } from '../../scripts/lib/redact.mjs';

@@ -118,7 +118,7 @@
 - Codex CLI を本格導入した場合、state.md の Write Lock 運用を厳格化
 - ユーザー数増加時に Observability Gate の本格対応
 
-## D-009: pm-zero v9.3移行 — tasks.md と repo-map.md を一次構造に追加
+## D-014: pm-zero v9.3移行 — tasks.md と repo-map.md を一次構造に追加
 - 日付: 2026-05-15
 - 対象: process
 - 決定: 実行タスクは `tasks.md`、現在ポインタは `docs/state.md`、リポジトリナビゲーションは `docs/repo-map.md` に分離する
@@ -126,7 +126,7 @@
 - 不採用案: `docs/state.md` にタスク一覧を残す → `tasks.md` と責務が重複し、更新漏れが起きやすい
 - 将来見直し条件: pm-zero の次版で台帳責務が変更された場合
 
-## D-010: 検証コマンド — package.json と scripts/verify.mjs を一致させる
+## D-015: 検証コマンド — package.json と scripts/verify.mjs を一致させる
 - 日付: 2026-05-15
 - 対象: process
 - 決定: `pnpm typecheck`, `pnpm test`, `pnpm verify` を package.json に追加し、`scripts/verify.mjs` はそれらを呼ぶ
@@ -134,7 +134,7 @@
 - 不採用案: `npx tsc --noEmit` などを文書側に残す → v9.3標準コマンドと異なり、次セッションで迷う
 - 将来見直し条件: テストランナーをVitest/Playwrightへ移行した場合
 
-## D-011: パッケージ管理 — pnpmへ単一化
+## D-016: パッケージ管理 — pnpmへ単一化
 - 日付: 2026-05-15
 - 対象: process
 - 決定: `pnpm-lock.yaml` を唯一のロックファイルとし、旧 `package-lock.json` は削除する

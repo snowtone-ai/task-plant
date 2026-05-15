@@ -4,17 +4,15 @@ import { useCallback, useEffect, useState } from "react";
 import { getDb, type PlantState } from "@/lib/db";
 import {
   calcGrowthStage,
+  getWeekStartLocal,
   getCurrentSpecies,
+  toLocalDateString,
   type GrowthStage,
   type PlantSpecies,
 } from "@/lib/domain/plant";
 
 function getWeekStart(): string {
-  const date = new Date();
-  const day = date.getDay();
-  const diff = day === 0 ? 6 : day - 1;
-  date.setDate(date.getDate() - diff);
-  return date.toISOString().slice(0, 10);
+  return toLocalDateString(getWeekStartLocal(new Date()));
 }
 
 async function loadPlantState(): Promise<PlantState> {

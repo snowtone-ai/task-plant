@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Calendar, Home, Leaf } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -9,12 +10,15 @@ const NAV_ITEMS = [
   { href: "/plant", label: "植物", icon: Leaf },
 ] as const;
 
-export function BottomNav({ currentPath }: { currentPath: "/" | "/all" | "/plant" }) {
+export function BottomNav({ currentPath }: { currentPath?: "/" | "/all" | "/plant" }) {
+  const pathname = usePathname();
+  const resolvedPath = currentPath ?? (pathname === "/all" || pathname === "/plant" ? pathname : "/");
+
   return (
     <nav className="fixed inset-x-0 bottom-0 flex border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-[env(safe-area-inset-bottom)]">
       {NAV_ITEMS.map((item) => {
         const Icon = item.icon;
-        const isActive = item.href === currentPath;
+        const isActive = item.href === resolvedPath;
 
         return (
           <Link
