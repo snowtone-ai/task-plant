@@ -1,12 +1,24 @@
-# CLAUDE.md
+# Claude Code Adapter -- pm-zero v9.3
 
 @AGENTS.md
 
 ## Claude-specific
 - Claude CodeはCLAUDE.mdを読む。共通ルールはAGENTS.mdを一次ソースにする。
 - 計画、設計、レビュー、文章品質判断を優先する。
+- 実装タスクはtasks.mdに書く。
+- ナビゲーションにはdocs/repo-map.md Summaryを使い、詳細セクションは必要時に読む。
+- ファイル操作、git、build、test、lintはグローバル設定とプロジェクト境界に従い自動実行する。
 - Codex CLIと同じbranchを同時編集しない。
 - /resume /escape /audit /reference /ev /env-guide /console-debug /verify は .claude/skills/index.md の該当章を読む。
+
+## Shell Policy
+- Primary: PowerShell for all project operations.
+- Project paths use Windows paths with backslash in PowerShell.
+- Node.js scripts run with node scripts/name.mjs.
+
+## Version Policy
+- ユーザーが現在設定しているClaude Codeバージョンを維持する。
+- Phase 0でローカルバージョンを検証する。
 
 ## 技術スタック
 Next.js 16+ (App Router) / React 19 / TypeScript (strict: true) / Tailwind CSS v4 / pnpm / Vercel

@@ -6,7 +6,7 @@
 - Current executor: none
 - Write lock: none
 - Coordinator: Codex CLI
-- Latest verification pointer: tasks.md T003 evidence（2026-05-15 pnpm verify pass + browser smoke pass）
+- Latest verification pointer: tasks.md T004 evidence（2026-05-15 pnpm verify pass）
 - Verification mode: final
 
 ## Current Blocker

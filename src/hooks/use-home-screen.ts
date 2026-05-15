@@ -7,6 +7,7 @@ import {
   getTasksForDate,
   getCurrentStreakCount,
   recordStreak,
+  syncPlantStateFromTasks,
   toggleTaskComplete,
 } from "@/lib/taskDb";
 import {
@@ -101,6 +102,7 @@ export function useHomeScreen() {
     } else {
       await plant.decrementCompleted();
     }
+    await syncPlantStateFromTasks();
     scheduleTaskNotifications().catch(console.error);
   }
 
@@ -110,7 +112,7 @@ export function useHomeScreen() {
   }
 
   function onTasksChanged() {
-    loadTasks().catch(console.error);
+    Promise.all([loadTasks(), syncPlantStateFromTasks()]).catch(console.error);
     scheduleTaskNotifications().catch(console.error);
   }
 

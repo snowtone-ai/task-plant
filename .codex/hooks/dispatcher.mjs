@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// pm-zero v9.1 — Codex CLI Hook Dispatcher
+// pm-zero v9.3 — Codex CLI Hook Dispatcher
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { redact, warnHookFailure } from '../../scripts/lib/redact.mjs';

@@ -4,9 +4,11 @@ import {
   calcProgress,
   calcGrowthStage,
   countWeeklyCompletedTasks,
+  getWeekStartLocal,
   getSpeciesForMonth,
   getStageLabel,
   PLANT_SPECIES,
+  toLocalDateString,
 } from "../../../src/lib/domain/plant.ts";
 
 test("calcGrowthStage maps weekly completed count to stages", () => {
@@ -52,7 +54,7 @@ test("getSpeciesForMonth rejects invalid months instead of returning blank UI da
 test("countWeeklyCompletedTasks only includes completed tasks in the current week", () => {
   const now = new Date("2026-05-15T12:00:00.000Z");
   const tasks = [
-    { completed: true, completedAt: "2026-05-10T00:00:00.000Z" },
+    { completed: true, completedAt: "2026-05-12T00:00:00.000Z" },
     { completed: true, completedAt: "2026-05-15T11:00:00.000Z" },
     { completed: true, completedAt: "2026-05-08T23:59:59.000Z" },
     { completed: false, completedAt: "2026-05-14T10:00:00.000Z" },
@@ -60,4 +62,17 @@ test("countWeeklyCompletedTasks only includes completed tasks in the current wee
   ];
 
   assert.equal(countWeeklyCompletedTasks(tasks, now), 2);
+});
+
+test("getWeekStartLocal uses Monday as start of week", () => {
+  const sunday = new Date("2026-05-17T12:00:00+09:00");
+  assert.equal(toLocalDateString(getWeekStartLocal(sunday)), "2026-05-11");
+
+  const monday = new Date("2026-05-18T00:01:00+09:00");
+  assert.equal(toLocalDateString(getWeekStartLocal(monday)), "2026-05-18");
+});
+
+test("toLocalDateString is timezone-safe for local date extraction", () => {
+  const localEarlyMorning = new Date("2026-05-18T00:30:00+09:00");
+  assert.equal(toLocalDateString(localEarlyMorning), "2026-05-18");
 });

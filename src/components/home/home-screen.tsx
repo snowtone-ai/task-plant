@@ -83,7 +83,7 @@ export function HomeScreen() {
         )}
       </main>
 
-      <BottomNav currentPath="/" />
+      <BottomNav />
       <FloatingActions
         onVoiceTaskCreated={screen.onTasksChanged}
         onFallbackToManual={screen.openAddModal}

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Calendar, CalendarPlus, List, Plus } from "lucide-react";
 import { BottomNav } from "@/components/navigation/bottom-nav";
 import { type Category, type Task } from "@/lib/db";
-import { getAllTasks } from "@/lib/taskDb";
+import { getAllTasks, syncPlantStateFromTasks } from "@/lib/taskDb";
 import {
   buildCategoryDotMap,
   doesTaskApplyToDate,
@@ -39,6 +39,10 @@ export function AllScreen() {
     const tasks = await getAllTasks();
     setAllTasks(tasks);
     return tasks;
+  }
+
+  async function reloadTasksAndPlantState() {
+    await Promise.all([loadTasks(), syncPlantStateFromTasks()]);
   }
 
   useEffect(() => {
@@ -127,7 +131,7 @@ export function AllScreen() {
         )}
       </main>
 
-      <BottomNav currentPath="/all" />
+      <BottomNav />
       <button
         type="button"
         aria-label="タスクを追加"
@@ -149,22 +153,22 @@ export function AllScreen() {
       {showAddModal && (
         <TaskAddModal
           onClose={() => setShowAddModal(false)}
-          onTaskCreated={() => loadTasks().catch(console.error)}
+          onTaskCreated={() => reloadTasksAndPlantState().catch(console.error)}
         />
       )}
       <CalendarImportModal
         open={showCalendarModal}
         onClose={() => setShowCalendarModal(false)}
-        onTasksCreated={() => loadTasks().catch(console.error)}
+        onTasksCreated={() => reloadTasksAndPlantState().catch(console.error)}
       />
       {editingTask && (
         <TaskEditModal
           task={editingTask}
           onClose={() => setEditingTask(null)}
-          onSaved={() => loadTasks().catch(console.error)}
+          onSaved={() => reloadTasksAndPlantState().catch(console.error)}
           onDeleted={() => {
             setEditingTask(null);
-            loadTasks().catch(console.error);
+            reloadTasksAndPlantState().catch(console.error);
           }}
         />
       )}
