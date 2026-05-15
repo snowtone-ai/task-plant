@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { Calendar, Home, Leaf } from "lucide-react";
+import { BottomNav } from "@/components/navigation/bottom-nav";
 import { usePlant } from "@/hooks/use-plant";
 import { calcProgress, getStageLabel } from "@/lib/domain/plant";
 import { PlantParticles } from "./plant-particles";
 import { PlantRenderer } from "./plant-renderer";
 
-export default function PlantScreen() {
+export function PlantScreen() {
   const { species, stage, state } = usePlant();
   const [flipped, setFlipped] = useState(true);
   const isBlooming = stage >= 4;
@@ -50,26 +49,7 @@ export default function PlantScreen() {
           </p>
         )}
       </div>
-      <BottomNav />
+      <BottomNav currentPath="/plant" />
     </div>
-  );
-}
-
-function BottomNav() {
-  return (
-    <nav className="fixed inset-x-0 bottom-0 flex border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-[env(safe-area-inset-bottom)]">
-      <Link href="/" className="flex flex-1 flex-col items-center gap-1 py-3 text-muted-foreground">
-        <Home className="size-5" />
-        <span className="text-xs font-medium">ホーム</span>
-      </Link>
-      <Link href="/all" className="flex flex-1 flex-col items-center gap-1 py-3 text-muted-foreground">
-        <Calendar className="size-5" />
-        <span className="text-xs font-medium">カレンダー</span>
-      </Link>
-      <Link href="/plant" aria-current="page" className="flex flex-1 flex-col items-center gap-1 py-3 text-orange-500">
-        <Leaf className="size-5" />
-        <span className="text-xs font-medium">植物</span>
-      </Link>
-    </nav>
   );
 }

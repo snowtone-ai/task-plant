@@ -9,6 +9,11 @@ export interface PlantSpecies {
   archetype: "upright" | "cherry" | "hanging" | "delicate";
 }
 
+export interface CompletedTaskRecord {
+  completed: boolean;
+  completedAt: string | null;
+}
+
 export const PLANT_SPECIES: PlantSpecies[] = [
   { month: 1,  name: "梅",       nameEn: "plum",        color: "#f8b4c8", accentColor: "#e8a0b4", archetype: "cherry" },
   { month: 2,  name: "蝋梅",     nameEn: "wintersweet", color: "#ffe066", accentColor: "#f5c842", archetype: "cherry" },
@@ -49,7 +54,28 @@ export function calcProgress(weeklyCompleted: number, stage: GrowthStage): numbe
 
 export function getCurrentSpecies(): PlantSpecies {
   const month = new Date().getMonth() + 1; // 1-12
-  return PLANT_SPECIES.find((p) => p.month === month) ?? PLANT_SPECIES[0];
+  return getSpeciesForMonth(month);
+}
+
+export function getSpeciesForMonth(month: number): PlantSpecies {
+  const species = PLANT_SPECIES.find((plantSpecies) => plantSpecies.month === month);
+  if (!species) throw new Error(`Invalid plant month: ${month}`);
+  return species;
+}
+
+export function countWeeklyCompletedTasks(
+  tasks: CompletedTaskRecord[],
+  now: Date
+): number {
+  const weekStart = new Date(now);
+  weekStart.setHours(0, 0, 0, 0);
+  weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+
+  return tasks.filter((task) => {
+    if (!task.completed || !task.completedAt) return false;
+    const completedAt = new Date(task.completedAt);
+    return completedAt >= weekStart && completedAt <= now;
+  }).length;
 }
 
 const STAGE_LABELS = ["種", "芽吹き", "葉が出た", "つぼみ", "開花中", "満開"] as const;

@@ -117,3 +117,38 @@
 ## Future Changes
 - Codex CLI を本格導入した場合、state.md の Write Lock 運用を厳格化
 - ユーザー数増加時に Observability Gate の本格対応
+
+## D-009: pm-zero v9.3移行 — tasks.md と repo-map.md を一次構造に追加
+- 日付: 2026-05-15
+- 対象: process
+- 決定: 実行タスクは `tasks.md`、現在ポインタは `docs/state.md`、リポジトリナビゲーションは `docs/repo-map.md` に分離する
+- 採用理由: pm-zero v9.3 の Task Ledger Gate / Repo Map Gate に合わせ、タスク状態と現在状態の重複を防ぐため
+- 不採用案: `docs/state.md` にタスク一覧を残す → `tasks.md` と責務が重複し、更新漏れが起きやすい
+- 将来見直し条件: pm-zero の次版で台帳責務が変更された場合
+
+## D-010: 検証コマンド — package.json と scripts/verify.mjs を一致させる
+- 日付: 2026-05-15
+- 対象: process
+- 決定: `pnpm typecheck`, `pnpm test`, `pnpm verify` を package.json に追加し、`scripts/verify.mjs` はそれらを呼ぶ
+- 採用理由: AGENTS.md / OS-KERNEL.md が要求するコマンドと実在する npm scripts がズレていたため
+- 不採用案: `npx tsc --noEmit` などを文書側に残す → v9.3標準コマンドと異なり、次セッションで迷う
+- 将来見直し条件: テストランナーをVitest/Playwrightへ移行した場合
+
+## D-011: パッケージ管理 — pnpmへ単一化
+- 日付: 2026-05-15
+- 対象: process
+- 決定: `pnpm-lock.yaml` を唯一のロックファイルとし、旧 `package-lock.json` は削除する
+- 採用理由: AGENTS.md / README.md / docs/repo-map.md がpnpmを一次パッケージマネージャーとして定義しており、npmロックが残ると依存更新経路が分岐するため
+- 不採用案: `package-lock.json` を残して注意書きだけ追加 → 次回の自動実行でnpm/pnpmの混在が再発しやすい
+- 将来見直し条件: プロジェクト標準をnpmへ戻す場合
+
+## D-013: 植物画面復旧 — plantState + 共通下部ナビ
+- 日付: 2026-05-15
+- 対象: UI / domain
+- 決定: 植物状態は既存の `plantState` 永続化を使い、下部ナビは `src/components/navigation/bottom-nav.tsx` に共通化する
+- 実例1: `/` の下部ナビに「ホーム / カレンダー / 植物」を表示し、植物タブから `/plant` へ遷移する
+- 実例2: `/all` の下部ナビも同じ3タブを使い、ページごとの複製差分で植物タブが消えないようにする
+- 実例3: `/plant` は今月の植物名、今週の完了数、成長段階、SVG植物を表示し、IndexedDB読み込み失敗時も画面全体を空にしない
+- 採用理由: リモート側で導入済みの `plantState` と同期しつつ、ナビ重複をなくすことで同種の表示欠落を防げるため
+- 不採用案: 各画面に下部ナビを個別実装し続ける → ページ追加時にタブ欠落が再発しやすい
+- 将来見直し条件: 月跨ぎ履歴、植物図鑑、手動育成状態など永続化が必要になった場合

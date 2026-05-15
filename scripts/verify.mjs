@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// pm-zero v9.1 — Unified Verification Script
+// pm-zero v9.3 -- Unified Verification Script
 import { execSync } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -29,11 +29,14 @@ const requiredFiles = [
   'CLAUDE.md',
   'OS-KERNEL.md',
   'MEMORY.md',
+  'CONTEXT.md',
   'HANDOFF-JA.md',
+  'tasks.md',
   'docs/vision.md',
   'docs/state.md',
   'docs/decisions.md',
   'docs/issues.md',
+  'docs/repo-map.md',
   '.claude/settings.json',
   '.claude/hooks/dispatcher.mjs',
   '.claude/skills/index.md',
@@ -51,7 +54,8 @@ for (const file of requiredFiles) {
 }
 
 run('Lint', 'pnpm lint');
-run('Typecheck', 'npx tsc --noEmit');
+run('Typecheck', 'pnpm typecheck');
+run('Test', 'pnpm test');
 run('Build', 'pnpm build');
 
 console.log('\n=== Verification Summary ===');

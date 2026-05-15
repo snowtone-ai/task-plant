@@ -1,6 +1,7 @@
 {
   "permissions": {
     "allow": [
+      "Bash(rtk *)",
       "mcp__brave-search__brave_web_search",
       "Bash(pnpm add:*)",
       "Bash(python /c/Users/chidj/dev/task-manager/generate_icons.py)",
@@ -15,7 +16,39 @@
       "Bash(cat .eslintrc*)",
       "Bash(npx eslint:*)",
       "Bash(npx tsc:*)",
-      "Bash(npx vercel:*)"
+      "Bash(npx vercel:*)",
+      "Bash(pnpm tsc *)",
+      "Bash(pnpm exec *)",
+      "Bash(node_modules/.bin/tsc --noEmit)",
+      "Bash(pip --version)",
+      "Bash(pip3 --version)",
+      "Bash(code:*)",
+      "Bash(where code:*)",
+      "Bash(where code.cmd)",
+      "Read(//c/Users/chidj/AppData/Local/Programs/Microsoft VS Code//**)",
+      "Bash(sqlite3 --version)",
+      "Bash(psql --version)",
+      "Bash(/c/Users/chidj/AppData/Local/Programs/Microsoft VS Code/bin/code:*)",
+      "Bash('/c/Users/chidj/AppData/Local/Programs/Microsoft VS Code/bin/code' --install-extension mtxr.sqltools)",
+      "Bash('/c/Users/chidj/AppData/Local/Programs/Microsoft VS Code/bin/code' --install-extension mtxr.sqltools-driver-sqlite)",
+      "Bash('/c/Users/chidj/AppData/Local/Programs/Microsoft VS Code/bin/code' --install-extension mtxr.sqltools-driver-pg)",
+      "Bash('/c/Users/chidj/AppData/Local/Programs/Microsoft VS Code/bin/code' --install-extension qwtel.sqlite-viewer)",
+      "Bash(winget install:*)",
+      "Bash(python -c \"import sqlite3; print\\('sqlite3 \\(Python built-in\\):', sqlite3.sqlite_version\\)\")",
+      "Bash(python -c \"import sqlite3; print\\('sqlite3:', sqlite3.sqlite_version\\)\")",
+      "Bash(python -c \"import csv, json, pathlib; print\\('stdlib OK'\\)\")",
+      "Bash(pip show:*)",
+      "Bash(pip install:*)",
+      "Bash($VSCODE:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh auth:*)",
+      "Bash(GITHUB_TOKEN=\"\" gh pr:*)",
+      "Bash(unset GITHUB_TOKEN)",
+      "Bash(gh repo:*)",
+      "Bash(git checkout:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git remote:*)"
     ]
   }
 }

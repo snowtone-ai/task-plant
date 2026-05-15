@@ -18,6 +18,7 @@
       "Bash(git clean -fd *)"
     ],
     "allow": [
+      "Bash(rtk *)",
       "Read",
       "Glob",
       "Grep",
@@ -38,7 +39,12 @@
       "Bash(git diff *)",
       "Bash(git log *)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git checkout *)",
+      "Bash(git pull *)",
+      "Bash(git fetch *)",
+      "Bash(gh *)"
     ]
   },
   "hooks": {

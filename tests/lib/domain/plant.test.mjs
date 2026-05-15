@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import {
   calcProgress,
   calcGrowthStage,
+  countWeeklyCompletedTasks,
+  getSpeciesForMonth,
   getStageLabel,
   PLANT_SPECIES,
 } from "../../../src/lib/domain/plant.ts";
@@ -40,4 +42,22 @@ test("plant species covers all months and required archetypes", () => {
     "delicate",
   ]));
   assert.equal(getStageLabel(5), "満開");
+});
+
+test("getSpeciesForMonth rejects invalid months instead of returning blank UI data", () => {
+  assert.equal(getSpeciesForMonth(5).name, "バラ");
+  assert.throws(() => getSpeciesForMonth(0), /Invalid plant month/);
+});
+
+test("countWeeklyCompletedTasks only includes completed tasks in the current week", () => {
+  const now = new Date("2026-05-15T12:00:00.000Z");
+  const tasks = [
+    { completed: true, completedAt: "2026-05-10T00:00:00.000Z" },
+    { completed: true, completedAt: "2026-05-15T11:00:00.000Z" },
+    { completed: true, completedAt: "2026-05-08T23:59:59.000Z" },
+    { completed: false, completedAt: "2026-05-14T10:00:00.000Z" },
+    { completed: true, completedAt: null },
+  ];
+
+  assert.equal(countWeeklyCompletedTasks(tasks, now), 2);
 });

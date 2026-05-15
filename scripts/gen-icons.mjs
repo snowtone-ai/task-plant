@@ -9,7 +9,7 @@
  *   public/icons/icon-maskable-512.png (maskable 512×512)
  */
 
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync } from "fs";
 import { createRequire } from "module";
 import path from "path";
 import { fileURLToPath } from "url";

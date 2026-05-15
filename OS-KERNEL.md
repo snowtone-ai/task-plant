@@ -1,94 +1,126 @@
-# OS-KERNEL.md — pm-zero v9.1
+# OS-KERNEL.md -- pm-zero v9.3
 
 ## Quality Gates
 
 ### Q1. Spec / Reference Gate
-- docs/vision.md に目的・ユーザー・成功条件がある。
-- UI/API/DB/重要workflowは実在例3件が docs/decisions.md にある。
-- HIGH仮定が3つ以上ある場合、実装前に確認済み。
+- docs/vision.md contains product intent.
+- UI/API/DB/critical workflows have 3 real examples in docs/decisions.md.
+- 3+ HIGH assumptions are confirmed before implementation.
 
-### Q2. Code Gate
-- 1ファイル300行目安。
-- 1関数50行目安。
-- 意味の薄い命名を避ける。
-- 空catch禁止。
-- 既存styleに合わせる。
+### Q2. Task Ledger Gate
+- tasks.md exists.
+- Active work maps to a task ID.
+- Ready tasks include owner, dependencies, write scope, acceptance, verification, and evidence.
+- Completed work updates task status and evidence.
 
-### Q3. Architecture Gate
-- UI / domain / data の責務を混ぜない。
-- 依存方向を一方向にする。
-- 300行超diffは分割、または docs/decisions.md に理由を書く。
-- 過剰抽象化を避ける。
+### Q3. Repo Map Gate
+- docs/repo-map.md exists.
+- Summary stays under 20 lines.
+- Structural changes update the relevant section.
+- Agents use repo-map details before broad manual browsing.
 
-### Q4. Test Gate
-- 新機能にはテストを追加。
-- バグ修正は再現テストまたは再現手順を残す。
-- negative pathを最低1つ含める。
-- UI変更はscreenshotまたはbrowser smokeを実施。
+### Q4. Code Gate
+- Target 300 lines per file.
+- Target 50 lines per function.
+- Meaningful naming throughout.
+- Every error is handled explicitly.
+- Existing code style is matched.
 
-### Q5. Error Gate
-- 失敗ケースを仕様化。
-- ユーザー向けエラー文を用意。
-- 同じエラー3回でEscalation。
+### Q5. Architecture Gate
+- UI / domain / data responsibilities stay separated.
+- Dependencies flow in one direction.
+- 300+ line diffs are split or explained in docs/decisions.md.
+- Abstractions stay concrete and justified.
 
-### Q6. Security Gate
-- secretを読まない・出力しない。
-- .env* は読み取り禁止。
-- 認証・課金・DB・権限・deploy・外部APIはCross-vendor review。
+### Q6. Test Gate
+- New features include tests.
+- Bug fixes include reproduction tests or reproduction steps.
+- Include at least 1 negative path.
+- UI changes include screenshot or browser smoke.
 
-### Q7. Observability Gate
-- console.log だけに依存しない。
-- error / warn / info を区別する。
-- secret redactionを行う。
-- API / DB / auth / 外部APIの失敗が追跡できる。
-- MVPで後回しにする場合は docs/decisions.md に明記する。
+### Q7. Error Gate
+- Failure cases are documented.
+- User-facing errors are prepared.
+- 3 consecutive identical errors create Escalation in docs/issues.md.
 
-### Q8. Handoff Gate
-- 日本語で報告。
-- 実行した検証を明記。
-- 未検証を隠さない。
-- AIができる作業をユーザーに丸投げしない。
+### Q8. Security Gate
+- Safe values only in output.
+- Environment secrets are accessed through application runtime only.
+- Auth, billing, DB, permissions, deploy, and external API require cross-vendor review.
+
+### Q9. Observability Gate
+- For production targets, logging distinguishes error / warn / info.
+- Secret redaction is applied where data leaves process boundaries.
+- API / DB / auth / external API failures are traceable.
+- MVP deferrals are documented in docs/decisions.md.
+
+### Q10. Handoff Gate
+- Report in Japanese.
+- Completed task IDs are listed.
+- Verification steps are explicitly listed.
+- Unverified items are explicitly listed.
+- AI completes all possible work before requesting human action.
 
 ## Verification Modes
 
 ### quick
-用途: 文書修正、小さな文言修正、低リスク設定変更。
-最低実行: 対象ファイル確認、影響範囲の明記。
+Use for docs, small copy changes, and low-risk config changes.
+
+Execute:
+- Confirm changed files.
+- Check task ID if applicable.
+- Run git diff --check.
+- Run targeted tests only when needed.
 
 ### standard
-用途: 通常実装、コンポーネント追加、API変更。
-最低実行: lint → typecheck → build → 関連test。
+Use for normal implementation, component additions, and API changes.
+
+Execute:
+- pnpm lint
+- pnpm typecheck
+- pnpm build
+- pnpm test or related tests
+- task evidence update
 
 ### final
-用途: main反映前、push前、deploy前、大規模変更後。
-最低実行: pnpm verify → e2e → browser smoke → console error確認 → screenshot → git status。
+Use for pre-merge, pre-push, pre-deploy, and large-scope changes.
+
+Execute:
+- pnpm verify
+- e2e tests
+- browser smoke
+- console error check
+- screenshot capture
+- git status
+- tasks.md vs git reality reconciliation
+- docs/state.md vs git reality reconciliation
 
 ## Cross-vendor Review Triggers
-- 認証
-- 課金
+- Auth
+- Billing
 - DB schema
-- RLS / 権限
-- deploy
-- security
-- 300行超diff
-- 新規外部API
-- 3回連続エラー
-- 本番データ・個人情報・公開URL影響
+- RLS / permissions
+- Deploy
+- Security
+- New external API
+- 300+ line diff
+- 3 consecutive errors
+- Production data, personal data, or public URL impact
 
 ## Permission Design
 
-### AIが自律実行する
-- pnpm install / lint / typecheck / test / build
-- Playwright / screenshot / console確認
-- git status / diff / add / commit
-- ファイル作成・編集
+### AI Executes
+- pnpm install / lint / typecheck / test / build / verify
+- Playwright / screenshot / console checks
+- git status / diff / non-destructive inspection
+- File creation and edits inside assigned write scope
 
-### 人間承認が必要
+### Human Approval Required
 - git push
-- 本番deploy最終承認
-- API key発行 / OAuth承認 / 課金
-- 個人情報・本番データの取り扱い判断
+- Production deploy final approval
+- API key issuance / OAuth approval / billing
+- Personal data or production data handling decisions
 
-### 禁止
+### Forbidden
 - force push / reset --hard / clean -fd / rm -rf / sudo
-- .env* 読み取り / secret出力
+- Reading or outputting secret-bearing .env files

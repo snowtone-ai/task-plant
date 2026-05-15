@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { Calendar, Home, Leaf, Mail, Plus } from "lucide-react";
+import { Mail, Plus } from "lucide-react";
+import { BottomNav } from "@/components/navigation/bottom-nav";
 import { useHomeScreen } from "@/hooks/use-home-screen";
 import { todayDateString } from "@/lib/domain/task-date";
 import { GmailImportModal } from "@/components/gmail/gmail-import-modal";
@@ -83,7 +83,7 @@ export function HomeScreen() {
         )}
       </main>
 
-      <BottomNav />
+      <BottomNav currentPath="/" />
       <FloatingActions
         onVoiceTaskCreated={screen.onTasksChanged}
         onFallbackToManual={screen.openAddModal}
@@ -199,25 +199,6 @@ function EmptyState() {
       <p className="text-base font-semibold text-foreground">今日のタスクはありません</p>
       <p className="mt-1 text-sm text-muted-foreground">右下の「+」ボタンからタスクを追加しましょう</p>
     </div>
-  );
-}
-
-function BottomNav() {
-  return (
-    <nav className="fixed inset-x-0 bottom-0 flex border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-[env(safe-area-inset-bottom)]">
-      <Link href="/" className="flex flex-1 flex-col items-center gap-1 py-3 text-orange-500" aria-current="page">
-        <Home className="size-5" />
-        <span className="text-xs font-medium">ホーム</span>
-      </Link>
-      <Link href="/all" className="flex flex-1 flex-col items-center gap-1 py-3 text-muted-foreground">
-        <Calendar className="size-5" />
-        <span className="text-xs font-medium">カレンダー</span>
-      </Link>
-      <Link href="/plant" className="flex flex-1 flex-col items-center gap-1 py-3 text-muted-foreground">
-        <Leaf className="size-5" />
-        <span className="text-xs font-medium">植物</span>
-      </Link>
-    </nav>
   );
 }
 

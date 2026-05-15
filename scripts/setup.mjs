@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// pm-zero v9.1 — Setup Script
+// pm-zero v9.3 -- Setup Script
 import fs from 'node:fs/promises';
 
 const dirs = [
@@ -19,4 +19,4 @@ for (const dir of dirs) {
   console.log(`created: ${dir}`);
 }
 
-console.log('pm-zero v9.1 directory structure ready.');
+console.log('pm-zero v9.3 directory structure ready.');

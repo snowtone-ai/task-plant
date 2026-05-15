@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { Calendar, CalendarPlus, Home, Leaf, List, Plus } from "lucide-react";
+import { Calendar, CalendarPlus, List, Plus } from "lucide-react";
+import { BottomNav } from "@/components/navigation/bottom-nav";
 import { type Category, type Task } from "@/lib/db";
 import { getAllTasks } from "@/lib/taskDb";
 import {
@@ -86,14 +86,14 @@ export function AllScreen() {
 
   return (
     <div className="flex min-h-dvh flex-col bg-background">
-      <header className="px-4 pt-8 pb-3 flex items-center justify-between">
+      <header className="px-4 pt-8 pb-3 flex items-center justify-between gap-2">
         <h1 className="text-2xl font-bold tracking-tight text-foreground">全タスク</h1>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => setShowCalendarModal(true)}
             className="p-2 text-muted-foreground transition-transform active:scale-95"
-            aria-label="Calendarからインポート"
+            aria-label="カレンダーからインポート"
           >
             <CalendarPlus className="size-5" />
           </button>
@@ -127,7 +127,7 @@ export function AllScreen() {
         )}
       </main>
 
-      <BottomNav />
+      <BottomNav currentPath="/all" />
       <button
         type="button"
         aria-label="タスクを追加"
@@ -198,24 +198,5 @@ function LoadingState() {
     <div className="flex items-center justify-center py-24">
       <p className="text-sm text-muted-foreground">読み込み中...</p>
     </div>
-  );
-}
-
-function BottomNav() {
-  return (
-    <nav className="fixed inset-x-0 bottom-0 flex border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-[env(safe-area-inset-bottom)]">
-      <Link href="/" className="flex flex-1 flex-col items-center gap-1 py-3 text-muted-foreground">
-        <Home className="size-5" />
-        <span className="text-xs font-medium">ホーム</span>
-      </Link>
-      <Link href="/all" aria-current="page" className="flex flex-1 flex-col items-center gap-1 py-3 text-orange-500">
-        <Calendar className="size-5" />
-        <span className="text-xs font-medium">カレンダー</span>
-      </Link>
-      <Link href="/plant" className="flex flex-1 flex-col items-center gap-1 py-3 text-muted-foreground">
-        <Leaf className="size-5" />
-        <span className="text-xs font-medium">植物</span>
-      </Link>
-    </nav>
   );
 }

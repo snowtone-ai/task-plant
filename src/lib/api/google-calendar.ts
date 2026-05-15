@@ -30,13 +30,29 @@ export async function fetchUpcomingEvents(): Promise<CalendarEvent[]> {
 }
 
 export function calendarEventToTaskData(event: CalendarEvent) {
-  const date = event.start.date ?? event.start.dateTime?.slice(0, 10) ?? "";
-  const time = event.start.dateTime ? event.start.dateTime.slice(11, 16) : null;
+  let dueDate: string;
+  let dueTime: string | null;
+
+  if (event.start.dateTime) {
+    const date = new Date(event.start.dateTime);
+    dueDate = [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0"),
+    ].join("-");
+    dueTime = [
+      String(date.getHours()).padStart(2, "0"),
+      String(date.getMinutes()).padStart(2, "0"),
+    ].join(":");
+  } else {
+    dueDate = event.start.date ?? "";
+    dueTime = null;
+  }
 
   return {
     title: event.summary ?? "(無題)",
-    dueDate: date,
-    dueTime: time,
+    dueDate,
+    dueTime,
     category: "life" as Category,
     recurrence: "none" as Recurrence,
   };
