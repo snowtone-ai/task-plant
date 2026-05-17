@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import { type Task } from "@/lib/db";
 import {
@@ -36,21 +36,22 @@ export function useHomeScreen() {
   const [showGmailModal, setShowGmailModal] = useState(false);
   const today = todayDateString();
 
-  async function loadTasks() {
+  const loadTasks = useCallback(async () => {
     const loaded = await getTasksForDate(today);
     setTasks(loaded);
     return loaded;
-  }
+  }, [today]);
 
-  async function refreshStreak() {
+  const refreshStreak = useCallback(async () => {
     setStreakCount(await getCurrentStreakCount());
-  }
+  }, []);
 
   useEffect(() => {
     initializeNotificationState(setNotifPermission, setNotifBannerDismissed);
     const fallback = setTimeout(() => setLoading(false), 1500);
 
-    Promise.all([loadTasks(), refreshStreak()])
+    Promise.resolve()
+      .then(() => Promise.all([loadTasks(), refreshStreak()]))
       .catch((err) => console.error("[home] initial load failed:", err))
       .finally(() => {
         clearTimeout(fallback);
@@ -58,8 +59,7 @@ export function useHomeScreen() {
       });
 
     return () => clearTimeout(fallback);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [today]);
+  }, [loadTasks, refreshStreak]);
 
   useEffect(() => {
     if (notifPermission === "granted") {
