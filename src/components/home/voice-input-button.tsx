@@ -44,7 +44,13 @@ export function VoiceInputButton({
     recognition.onstart = () => setStatus("listening");
 
     recognition.onresult = (event: SpeechRecognitionEvent) => {
-      const transcript = event.results[0][0].transcript;
+      const transcript = event.results[0][0].transcript?.trim() ?? "";
+      if (!transcript) {
+        setErrorMsg("音声がうまく取得できませんでした。もう一度お試しください");
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 2500);
+        return;
+      }
       setStatus("processing");
 
       parseTaskFromText(transcript, todayDateString())
