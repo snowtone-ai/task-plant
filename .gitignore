@@ -58,3 +58,4 @@ service-account*.json
 credentials.json
 .claude/transcripts/
 .claude/cache/
+.codegraph/
