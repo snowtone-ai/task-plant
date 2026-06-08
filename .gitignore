@@ -52,3 +52,9 @@ logs/*
 next-env.d.ts
 
 .vercel
+
+# GCP service account keys
+service-account*.json
+credentials.json
+.claude/transcripts/
+.claude/cache/
